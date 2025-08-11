@@ -113,6 +113,7 @@ export const App = () => {
               </a>
               {categoriesFromServer.map(categorie => (
                 <a
+                  key={categorie.id}
                   data-cy="Category"
                   className={cn('button', 'mr-2', 'my-1', { 'is-info': true })}
                   href="#/"
@@ -193,7 +194,7 @@ export const App = () => {
 
             <tbody>
               {products.map(product => (
-                <tr data-cy="Product">
+                <tr data-cy="Product" key={product.id}>
                   <td className="has-text-weight-bold" data-cy="ProductId">
                     {product.id}
                   </td>
