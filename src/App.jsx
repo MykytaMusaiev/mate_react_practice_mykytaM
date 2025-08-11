@@ -26,6 +26,7 @@ export const App = () => {
   const [filterByName, setFilterByName] = useState('All');
   const [filterByQuery, setFilterByQuery] = useState('');
   const [filterByCat, setFilterByCat] = useState([]);
+  // const [tableSort, settableSort] = useState({ field: null, order: 'asc' });
 
   const handleNameClick = userName => {
     setFilterByName(userName);
@@ -56,6 +57,10 @@ export const App = () => {
     setFilterByQuery('');
     setFilterByCat([]);
   };
+
+  // const handleTableSort = (e) => {
+
+  // }
 
   const filteredProducts = products.filter(product => {
     const matchesUser =
@@ -232,7 +237,6 @@ export const App = () => {
             </thead>
 
             <tbody>
-              {/* {products.map(product => ( */}
               {filteredProducts.map(product => (
                 <tr data-cy="Product" key={product.id}>
                   <td className="has-text-weight-bold" data-cy="ProductId">
