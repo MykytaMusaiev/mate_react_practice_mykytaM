@@ -24,11 +24,19 @@ const products = productsFromServer.map(product => {
 
 export const App = () => {
   const [filterByName, setFilterByName] = useState('All');
-  // const [filterByQuery, setFilterByQuery] = useState('');
+  const [filterByQuery, setFilterByQuery] = useState('');
   // const [filterByCat, setFilterByCat] = useState('All');
 
   const handleNameClick = userName => {
     setFilterByName(userName);
+  };
+
+  const handleChange = e => {
+    setFilterByQuery(e.currentTarget.value);
+  };
+
+  const handleInputClear = () => {
+    setFilterByQuery('');
   };
 
   return (
@@ -41,7 +49,12 @@ export const App = () => {
             <p className="panel-heading">Filters</p>
 
             <p className="panel-tabs has-text-weight-bold">
-              <a data-cy="FilterAllUsers" href="#/">
+              <a
+                data-cy="FilterAllUsers"
+                href="#/"
+                onClick={() => handleNameClick('All')}
+                className={cn({ 'is-active': filterByName === 'All' })}
+              >
                 All
               </a>
 
@@ -69,20 +82,24 @@ export const App = () => {
                   type="text"
                   className="input"
                   placeholder="Search"
-                  value="qwe"
+                  value={filterByQuery}
+                  onChange={e => handleChange(e)}
                 />
 
                 <span className="icon is-left">
                   <i className="fas fa-search" aria-hidden="true" />
                 </span>
 
-                <span className="icon is-right">
-                  <button
-                    data-cy="ClearButton"
-                    type="button"
-                    className="delete"
-                  />
-                </span>
+                {filterByQuery && (
+                  <span className="icon is-right">
+                    <button
+                      data-cy="ClearButton"
+                      type="button"
+                      className="delete"
+                      onClick={handleInputClear}
+                    />
+                  </span>
+                )}
               </p>
             </div>
 
