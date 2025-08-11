@@ -39,6 +39,19 @@ export const App = () => {
     setFilterByQuery('');
   };
 
+  const filteredProducts = products.filter(product => {
+    const matchesUser =
+      filterByName === 'All' || product.user.name === filterByName;
+
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(filterByQuery.toLowerCase());
+
+    //cat
+
+    return matchesUser && matchesSearch;
+  });
+
   return (
     <div className="section">
       <div className="container">
@@ -193,7 +206,8 @@ export const App = () => {
             </thead>
 
             <tbody>
-              {products.map(product => (
+              {/* {products.map(product => ( */}
+              {filteredProducts.map(product => (
                 <tr data-cy="Product" key={product.id}>
                   <td className="has-text-weight-bold" data-cy="ProductId">
                     {product.id}
