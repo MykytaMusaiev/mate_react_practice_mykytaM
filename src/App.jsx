@@ -180,10 +180,6 @@ export const App = () => {
         </div>
 
         <div className="box table-container">
-          <p data-cy="NoMatchingMessage">
-            No products matching selected criteria
-          </p>
-
           <table
             data-cy="ProductTable"
             className="table is-striped is-narrow is-fullwidth"
@@ -237,27 +233,39 @@ export const App = () => {
             </thead>
 
             <tbody>
-              {filteredProducts.map(product => (
-                <tr data-cy="Product" key={product.id}>
-                  <td className="has-text-weight-bold" data-cy="ProductId">
-                    {product.id}
-                  </td>
-                  <td data-cy="ProductName">{product.name}</td>
-                  <td data-cy="ProductCategory">
-                    {product.category.icon} - {product.category.title}
-                  </td>
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map(product => (
+                  <tr data-cy="Product" key={product.id}>
+                    <td className="has-text-weight-bold" data-cy="ProductId">
+                      {product.id}
+                    </td>
+                    <td data-cy="ProductName">{product.name}</td>
+                    <td data-cy="ProductCategory">
+                      {product.category.icon} - {product.category.title}
+                    </td>
 
+                    <td
+                      data-cy="ProductUser"
+                      className={cn(
+                        { 'has-text-link': product.user.sex === 'm' },
+                        { 'has-text-danger': product.user.sex === 'f' },
+                      )}
+                    >
+                      {product.user.name}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
                   <td
-                    data-cy="ProductUser"
-                    className={cn(
-                      { 'has-text-link': product.user.sex === 'm' },
-                      { 'has-text-danger': product.user.sex === 'f' },
-                    )}
+                    colSpan="4"
+                    className="has-text-centered"
+                    data-cy="NoMatchingMessage"
                   >
-                    {product.user.name}
+                    No products matching selected criteria
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
