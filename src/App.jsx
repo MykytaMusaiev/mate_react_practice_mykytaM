@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import cn from 'classnames';
 
@@ -23,7 +23,13 @@ const products = productsFromServer.map(product => {
 });
 
 export const App = () => {
-  const isSelecred = false;
+  const [filterByName, setFilterByName] = useState('All');
+  // const [filterByQuery, setFilterByQuery] = useState('');
+  // const [filterByCat, setFilterByCat] = useState('All');
+
+  const handleNameClick = userName => {
+    setFilterByName(userName);
+  };
 
   return (
     <div className="section">
@@ -44,11 +50,12 @@ export const App = () => {
                   className={cn(
                     { 'has-text-link': user.sex === 'm' },
                     { 'has-text-danger': user.sex === 'f' },
-                    { 'is-active': isSelecred },
+                    { 'is-active': filterByName === user.name },
                   )}
                   data-cy="FilterUser"
                   href="#/"
                   key={user.id}
+                  onClick={() => handleNameClick(user.name)}
                 >
                   {user.name}
                 </a>
