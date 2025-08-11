@@ -65,9 +65,10 @@ export const App = () => {
       .toLowerCase()
       .includes(filterByQuery.toLowerCase());
 
-    // cat
+    const matchesCat =
+      filterByCat.length === 0 || filterByCat.includes(product.category.title);
 
-    return matchesUser && matchesSearch;
+    return matchesUser && matchesSearch && matchesCat;
   });
 
   return (
