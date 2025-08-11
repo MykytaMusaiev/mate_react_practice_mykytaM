@@ -25,7 +25,7 @@ const products = productsFromServer.map(product => {
 export const App = () => {
   const [filterByName, setFilterByName] = useState('All');
   const [filterByQuery, setFilterByQuery] = useState('');
-  // const [filterByCat, setFilterByCat] = useState('All');
+  const [filterByCat, setFilterByCat] = useState([]);
 
   const handleNameClick = userName => {
     setFilterByName(userName);
@@ -39,6 +39,24 @@ export const App = () => {
     setFilterByQuery('');
   };
 
+  const handleCatClear = () => {
+    setFilterByCat([]);
+  };
+
+  const handleCategories = categorie => {
+    if (filterByCat.includes(categorie)) {
+      setFilterByCat(filterByCat.filter(item => item !== categorie));
+    } else {
+      setFilterByCat(prevCat => [...prevCat, categorie]);
+    }
+  };
+
+  const handleFilterReser = () => {
+    setFilterByName('All');
+    setFilterByQuery('');
+    setFilterByCat([]);
+  };
+
   const filteredProducts = products.filter(product => {
     const matchesUser =
       filterByName === 'All' || product.user.name === filterByName;
@@ -47,7 +65,7 @@ export const App = () => {
       .toLowerCase()
       .includes(filterByQuery.toLowerCase());
 
-    //cat
+    // cat
 
     return matchesUser && matchesSearch;
   });
@@ -120,7 +138,10 @@ export const App = () => {
               <a
                 href="#/"
                 data-cy="AllCategories"
-                className="button is-success mr-6 is-outlined"
+                className={cn('button', 'is-success', 'mr-6', {
+                  'is-outlined': filterByCat.length > 0,
+                })}
+                onClick={handleCatClear}
               >
                 All
               </a>
@@ -128,8 +149,11 @@ export const App = () => {
                 <a
                   key={categorie.id}
                   data-cy="Category"
-                  className={cn('button', 'mr-2', 'my-1', { 'is-info': true })}
+                  className={cn('button', 'mr-2', 'my-1', {
+                    'is-info': filterByCat.includes(categorie.title),
+                  })}
                   href="#/"
+                  onClick={() => handleCategories(categorie.title)}
                 >
                   {categorie.title}
                 </a>
@@ -141,6 +165,7 @@ export const App = () => {
                 data-cy="ResetAllButton"
                 href="#/"
                 className="button is-link is-outlined is-fullwidth"
+                onClick={handleFilterReser}
               >
                 Reset all filters
               </a>
